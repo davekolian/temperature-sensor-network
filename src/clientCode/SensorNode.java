@@ -5,20 +5,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SensorNode {
 
-    public double doEverything(String name){
-        double result = getCurrentRoomTemp();
-        try {
-            sendData(name + " Temperature: " + result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
 
     public double getCurrentRoomTemp() {
         Random random = new Random();
@@ -26,17 +17,20 @@ public class SensorNode {
         return 20 + random.nextInt(5);
     }
 
-    public void sendData(String name) throws Exception {
+    public static void sendData(ArrayList<Room> roomList) throws Exception {
         Socket s = new Socket("localhost", 3333);
-        DataInputStream din = new DataInputStream(s.getInputStream());
+        //DataInputStream din = new DataInputStream(s.getInputStream());
         DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        dout.writeUTF(name);
+        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int counter = 0;
+        String str = "";
+        while (counter < roomList.size()) {
+            String item = roomList.get(counter).getName() + " " + roomList.get(counter).getCurrentTemp() + "\n";
+            str += item;
+            counter++;
+        }
+        dout.writeUTF(str);
         dout.flush();
-
-
-
         dout.close();
         s.close();
     }

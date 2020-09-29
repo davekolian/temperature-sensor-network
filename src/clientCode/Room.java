@@ -1,14 +1,24 @@
 package clientCode;
 
 public class Room {
+    private String name;
     private double currentTemp;
     private boolean isWindowOpen;
     private SensorNode sensor;
 
-    public Room(double currentTemp, boolean isWindowOpen, SensorNode sensor) {
+    public Room(String name, double currentTemp, boolean isWindowOpen, SensorNode sensor) {
+        this.name = name;
         this.currentTemp = currentTemp;
         this.isWindowOpen = isWindowOpen;
         this.sensor = sensor;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getCurrentTemp() {
