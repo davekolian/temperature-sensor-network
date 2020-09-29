@@ -12,7 +12,7 @@ public class ServerNode {
         processData(collectData());
     }
 
-    public static String collectData() throws Exception{
+    public static String collectData() throws Exception {
         ServerSocket ss = new ServerSocket(3333);
         Socket s = ss.accept();
         DataInputStream din = new DataInputStream(s.getInputStream());
@@ -35,8 +35,8 @@ public class ServerNode {
         int nextLine = 0;
 
         String str = "";
-        for(Character c : data.toCharArray()){
-            if(c == '\n'){
+        for (Character c : data.toCharArray()) {
+            if (c == '\n') {
                 datar[nextLine] = str;
                 nextLine++;
                 str = "";
@@ -45,20 +45,39 @@ public class ServerNode {
             }
         }
 
-        System.out.println(datar[0]);
+        for (int i = 0; i < 4; i++) {
+            String[] result = datar[i].split(" ");
+            checkTemperature(result[0], Double.parseDouble(result[1]), 21.0);
+        }
     }
-    
-    public static void checkTemperature(String roomName, double temp, double dtemp){
+
+    public static void checkTemperature(String roomName, double temp, double dtemp) {
         System.out.println("Checking temperature of " + roomName);
         System.out.println("Current temperature is " + temp);
 
-        if(temp > dtemp){
+        if (temp > dtemp) {
             //Make it cooler
+            try {
+                System.out.println("Adjusting temperature, please wait 5 seconds!");
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
+            System.out.println(roomName + " is now " + dtemp + " C!");
+            System.out.println();
 
-        } else if (temp < dtemp){
+        } else if (temp < dtemp) {
             //Make it warmer
+            try {
+                System.out.println("Adjusting temperature, please wait 5 seconds!");
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
+            System.out.println(roomName + " is now " + dtemp + " C!");
+            System.out.println();
         } else {
             System.out.println("Temperature in " + roomName + " is optimal!");
         }
