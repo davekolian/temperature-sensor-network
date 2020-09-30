@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Server">
+    <output-path>$PROJECT_DIR$/out/artifacts/Server</output-path>
+    <root id="archive" name="temperature-sensor-network.jar">
+      <element id="module-output" name="temperature-sensor-network" />
+    </root>
+  </artifact>
+</component>
