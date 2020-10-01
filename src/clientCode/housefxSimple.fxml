@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="530.0" fitWidth="947.0" layoutX="-43.0">
+         <image>
+            <Image url="@House/Web%201920%20–%2011.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="kitchenTemp" fill="#ff3131" layoutX="547.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="23.5" />
+      <Text fx:id="livingroomTemp" fill="#ff3131" layoutX="191.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="23.5" />
+      <Text fx:id="BathroomTemp" fill="#ff3131" layoutX="699.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="23.5" />
+      <Text fx:id="wcTemp" fill="#ff3131" layoutX="703.0" layoutY="494.0" strokeType="OUTSIDE" strokeWidth="0.0" text="23.5" />
+      <Text fx:id="bedroomTemp" fill="#ff3131" layoutX="116.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="23.5" />
+      <ImageView fx:id="livingroomHotWave" fitHeight="55.0" fitWidth="36.0" layoutX="105.0" layoutY="160.0">
+         <image>
+            <Image url="@Web%201920%20–%2012.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="kitchenHotWave" fitHeight="55.0" fitWidth="36.0" layoutX="472.0" layoutY="273.0">
+         <image>
+            <Image url="@Web%201920%20–%2012.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bedroomHotWave" fitHeight="55.0" fitWidth="36.0" layoutX="150.0" layoutY="259.0" rotate="90.0">
+         <image>
+            <Image url="@Web%201920%20–%2012.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="wcHotWave" fitHeight="36.0" fitWidth="22.0" layoutX="712.0" layoutY="364.0" rotate="141.7">
+         <image>
+            <Image url="@Web%201920%20–%2012.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bathromHotWave" fitHeight="36.0" fitWidth="22.0" layoutX="688.0" layoutY="179.0">
+         <image>
+            <Image url="@Web%201920%20–%2012.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
