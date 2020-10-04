@@ -5,11 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 public class HouseController implements Initializable {
@@ -37,8 +34,8 @@ public class HouseController implements Initializable {
     SensorNode bedroomSensor = new SensorNode();
     Room bedroom = new Room("bedroom", bedroomSensor.getCurrentRoomTemp(), false, bedroomSensor);
 
-    SensorNode bathRoomSensor = new SensorNode();
-    Room bathRoom = new Room("bathRoom", bathRoomSensor.getCurrentRoomTemp(), false, bathRoomSensor);
+    SensorNode bathroomSensor = new SensorNode();
+    Room bathroom = new Room("bathroom", bathroomSensor.getCurrentRoomTemp(), false, bathroomSensor);
 
     SensorNode wcSensor = new SensorNode();
     Room wc = new Room("wc", wcSensor.getCurrentRoomTemp(), false, wcSensor);
@@ -56,8 +53,8 @@ public class HouseController implements Initializable {
         bedroomTemp.setText("" + bedroom.getCurrentTemp());
         roomList.add(bedroom);
 
-        bathroomTemp.setText("" + bathRoom.getCurrentTemp());
-        roomList.add(bathRoom);
+        bathroomTemp.setText("" + bathroom.getCurrentTemp());
+        roomList.add(bathroom);
 
         wcTemp.setText("" + wc.getCurrentTemp());
         roomList.add(wc);
@@ -117,6 +114,7 @@ public class HouseController implements Initializable {
                     System.out.println("Turning on the Cooling System!");
                     while (livingRoom.getCurrentTemp() != dtemp) {
                         Thread.sleep(10000);
+                        System.out.println("change in 1");
                         livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() - 1);
                         livingRoomTemp.setText("" + livingRoom.getCurrentTemp());
                     }
@@ -124,6 +122,7 @@ public class HouseController implements Initializable {
                     System.out.println("Turning on the Cooling System!");
                     while (livingRoom.getCurrentTemp() != dtemp) {
                         Thread.sleep(5000);
+                        System.out.println("change in 1");
                         livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() - 1);
                         livingRoomTemp.setText("" + livingRoom.getCurrentTemp());
                     }
@@ -138,7 +137,161 @@ public class HouseController implements Initializable {
                 //turn off animations
             }
         } else if(roomName.equals("kitchenRoom")){
+            if (onoff.equals("on")) {
+                double delta = kitchenRoom.getCurrentTemp() - dtemp;
 
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (livingRoom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(15000);
+                        System.out.println("change in 1");
+                        kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() - 1);
+                        kitchenTemp.setText("" + kitchenRoom.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(10000);
+                        System.out.println("change in 1");
+                        kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() - 1);
+                        kitchenTemp.setText("" + kitchenRoom.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Cooling System!");
+                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(5000);
+                        System.out.println("change in 1");
+                        kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() - 1);
+                        kitchenTemp.setText("" + kitchenRoom.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            } else if (onoff.equals("off")) {
+                //turn off animations
+            }
+        } else if(roomName.equals("bedroom")){
+            if (onoff.equals("on")) {
+                double delta = bedroom.getCurrentTemp() - dtemp;
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(15000);
+                        System.out.println("change in 1");
+                        bedroom.setCurrentTemp(bedroom.getCurrentTemp() - 1);
+                        bedroomTemp.setText("" + bedroom.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(10000);
+                        System.out.println("change in 1");
+                        bedroom.setCurrentTemp(bedroom.getCurrentTemp() - 1);
+                        bedroomTemp.setText("" + bedroom.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Cooling System!");
+                    while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(5000);
+                        System.out.println("change in 1");
+                        bedroom.setCurrentTemp(bedroom.getCurrentTemp() - 1);
+                        bedroomTemp.setText("" + bedroom.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            } else if (onoff.equals("off")) {
+                //turn off animations
+            }
+        } else if(roomName.equals("bathroom")){
+            if (onoff.equals("on")) {
+                double delta = bathroom.getCurrentTemp() - dtemp;
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (bathroom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(15000);
+                        System.out.println("change in 1");
+                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
+                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (bathroom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(10000);
+                        System.out.println("change in 1");
+                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
+                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Cooling System!");
+                    while (bathroom.getCurrentTemp() != dtemp) {
+                        Thread.sleep(5000);
+                        System.out.println("change in 1");
+                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
+                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            } else if (onoff.equals("off")) {
+                //turn off animations
+            }
+        } else if(roomName.equals("wc")){
+            if (onoff.equals("on")) {
+                double delta = wc.getCurrentTemp() - dtemp;
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (wc.getCurrentTemp() != dtemp) {
+                        Thread.sleep(15000);
+                        System.out.println("change in 1");
+                        wc.setCurrentTemp(wc.getCurrentTemp() - 1);
+                        wcTemp.setText("" + wc.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Cooling System!");
+                    while (wc.getCurrentTemp() != dtemp) {
+                        Thread.sleep(10000);
+                        System.out.println("change in 1");
+                        wc.setCurrentTemp(wc.getCurrentTemp() - 1);
+                        wcTemp.setText("" + wc.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Cooling System!");
+                    while (wc.getCurrentTemp() != dtemp) {
+                        Thread.sleep(5000);
+                        System.out.println("change in 1");
+                        wc.setCurrentTemp(wc.getCurrentTemp() - 1);
+                        wcTemp.setText("" + wc.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            } else if (onoff.equals("off")) {
+                //turn off animations
+            }
         }
     }
 
