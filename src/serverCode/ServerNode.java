@@ -3,6 +3,8 @@ package serverCode;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ServerNode {
     public static void main(String[] args) throws IOException {
@@ -30,18 +32,33 @@ public class ServerNode {
         //ss.close();
     }
 
+    static ArrayList<String> listOfHC = new ArrayList<>(5);
+
     public static String checkTemperature(String data, double desiredTemp) {
+
         String[] dataArray = data.split("#");
         String result = "";
 
         if (Double.parseDouble(dataArray[1]) < desiredTemp) {
             //turn on heating
             result = "on#heating#" + dataArray[0];
+            if (listOfHC.size() < 5) listOfHC.add(result);
         } else if (Double.parseDouble(dataArray[1]) > desiredTemp) {
             //turn on cooling
             result = "on#cooling#" + dataArray[0];
+            if (listOfHC.size() < 5) listOfHC.add(result);
         } else {
-            System.out.println("Desired temperature has been reached!");
+            //check if heating/cooling systems are turned on
+            Iterator<String> iterator = listOfHC.iterator();
+            while (iterator.hasNext()) {
+                if (iterator.toString().equals("on#heating" + dataArray[0])) {
+                    result = "off#heating#" + dataArray[0];
+                } else if (iterator.toString().equals("on#cooling" + dataArray[0])) {
+                    result = "off#cooling#" + dataArray[0];
+                } else {
+                    break;
+                }
+            }
         }
 
         return result;

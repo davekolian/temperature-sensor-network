@@ -12,8 +12,13 @@ import java.util.ArrayList;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("housefxSimple.fxml"));
-        stage.setTitle("Sudoku Solver");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("housefxSimple.fxml"));
+
+
+
+        Parent root = loader.load();
+
+        stage.setTitle("Smart Home Temperature Measure");
         stage.setScene(new Scene(root, 830, 520));
         //stage.getIcons().add(new Image(Main.class.getResourceAsStream("sudoku.png")));
         stage.show();
