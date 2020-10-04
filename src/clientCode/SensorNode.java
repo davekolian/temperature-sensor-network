@@ -1,15 +1,11 @@
 package clientCode;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class SensorNode {
-
 
     public double getCurrentRoomTemp() {
         Random random = new Random();
@@ -17,20 +13,20 @@ public class SensorNode {
         return 20 + random.nextInt(5);
     }
 
-    public static void sendData(ArrayList<Room> roomList) throws Exception {
+    public static void connect(String data) throws IOException {
         Socket s = new Socket("localhost", 3333);
-        //DataInputStream din = new DataInputStream(s.getInputStream());
+        DataInputStream din = new DataInputStream(s.getInputStream());
         DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int counter = 0;
-        String str = "";
-        while (counter < roomList.size()) {
-            String item = roomList.get(counter).getName() + " " + roomList.get(counter).getCurrentTemp() + "\n";
-            str += item;
-            counter++;
-        }
-        dout.writeUTF(str);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String fromServer = "";
+
+        dout.writeUTF(data);
         dout.flush();
+        fromServer = din.readUTF();
+        System.out.println(fromServer);
+
+
         dout.close();
         s.close();
     }

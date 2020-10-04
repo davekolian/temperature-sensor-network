@@ -44,4 +44,9 @@ public class Room {
     public void setSensor(SensorNode sensor) {
         this.sensor = sensor;
     }
+
+    @Override
+    public String toString() {
+        return getName() + "#" + getCurrentTemp() + "#" + isWindowOpen();
+    }
 }
