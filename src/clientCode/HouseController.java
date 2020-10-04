@@ -136,13 +136,13 @@ public class HouseController implements Initializable {
             } else if (onoff.equals("off")) {
                 //turn off animations
             }
-        } else if(roomName.equals("kitchenRoom")){
+        } else if (roomName.equals("kitchenRoom")) {
             if (onoff.equals("on")) {
                 double delta = kitchenRoom.getCurrentTemp() - dtemp;
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Cooling System!");
-                    while (livingRoom.getCurrentTemp() != dtemp) {
+                    while (kitchenRoom.getCurrentTemp() != dtemp) {
                         Thread.sleep(15000);
                         System.out.println("change in 1");
                         kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() - 1);
@@ -175,7 +175,7 @@ public class HouseController implements Initializable {
             } else if (onoff.equals("off")) {
                 //turn off animations
             }
-        } else if(roomName.equals("bedroom")){
+        } else if (roomName.equals("bedroom")) {
             if (onoff.equals("on")) {
                 double delta = bedroom.getCurrentTemp() - dtemp;
 
@@ -214,86 +214,38 @@ public class HouseController implements Initializable {
             } else if (onoff.equals("off")) {
                 //turn off animations
             }
-        } else if(roomName.equals("bathroom")){
+        } else if (roomName.equals("bathroom")) {
             if (onoff.equals("on")) {
-                double delta = bathroom.getCurrentTemp() - dtemp;
-
-                if (delta <= 1.5) {
-                    System.out.println("Turning on the Cooling System!");
-                    while (bathroom.getCurrentTemp() != dtemp) {
-                        Thread.sleep(15000);
-                        System.out.println("change in 1");
-                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
-                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
-                    }
-                    // animation for 1 fan
-                } else if (delta > 1.5 && delta <= 2.5) {
-                    System.out.println("Turning on the Cooling System!");
-                    while (bathroom.getCurrentTemp() != dtemp) {
-                        Thread.sleep(10000);
-                        System.out.println("change in 1");
-                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
-                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
-                    }
-                } else {
-                    System.out.println("Turning on the Cooling System!");
-                    while (bathroom.getCurrentTemp() != dtemp) {
-                        Thread.sleep(5000);
-                        System.out.println("change in 1");
-                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
-                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
-                    }
+                System.out.println("Turning on the Cooling System!");
+                while (bathroom.getCurrentTemp() != dtemp) {
+                    Thread.sleep(30000);
+                    System.out.println("change in 1");
+                    bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
+                    bathroomTemp.setText("" + bathroom.getCurrentTemp());
                 }
-
-                //3 fans - > 5 secs | if delta >2.5
-                //2 fans -> 10 secs | if delta >1.5 and <2.5
-                //1 fans -> 15 secs | if delta <1.5
+                // animation for 1 fan
 
 
             } else if (onoff.equals("off")) {
                 //turn off animations
             }
-        } else if(roomName.equals("wc")){
+        } else if (roomName.equals("wc")) {
             if (onoff.equals("on")) {
-                double delta = wc.getCurrentTemp() - dtemp;
 
-                if (delta <= 1.5) {
-                    System.out.println("Turning on the Cooling System!");
-                    while (wc.getCurrentTemp() != dtemp) {
-                        Thread.sleep(15000);
-                        System.out.println("change in 1");
-                        wc.setCurrentTemp(wc.getCurrentTemp() - 1);
-                        wcTemp.setText("" + wc.getCurrentTemp());
-                    }
-                    // animation for 1 fan
-                } else if (delta > 1.5 && delta <= 2.5) {
-                    System.out.println("Turning on the Cooling System!");
-                    while (wc.getCurrentTemp() != dtemp) {
-                        Thread.sleep(10000);
-                        System.out.println("change in 1");
-                        wc.setCurrentTemp(wc.getCurrentTemp() - 1);
-                        wcTemp.setText("" + wc.getCurrentTemp());
-                    }
-                } else {
-                    System.out.println("Turning on the Cooling System!");
-                    while (wc.getCurrentTemp() != dtemp) {
-                        Thread.sleep(5000);
-                        System.out.println("change in 1");
-                        wc.setCurrentTemp(wc.getCurrentTemp() - 1);
-                        wcTemp.setText("" + wc.getCurrentTemp());
-                    }
+                System.out.println("Turning on the Cooling System!");
+                while (wc.getCurrentTemp() != dtemp) {
+                    Thread.sleep(30000);
+                    System.out.println("change in 1");
+                    wc.setCurrentTemp(wc.getCurrentTemp() - 1);
+                    wcTemp.setText("" + wc.getCurrentTemp());
                 }
-
-                //3 fans - > 5 secs | if delta >2.5
-                //2 fans -> 10 secs | if delta >1.5 and <2.5
-                //1 fans -> 15 secs | if delta <1.5
-
-
-            } else if (onoff.equals("off")) {
-                //turn off animations
+                // animation for 1 fan
             }
+        } else if (onoff.equals("off")) {
+            //turn off animations
         }
     }
+
 
     public void heatingFunction(String roomName, String onoff, double dtemp) {
 
