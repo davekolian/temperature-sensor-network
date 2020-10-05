@@ -21,6 +21,7 @@ public class ServerNode {
             str = din.readUTF();
             System.out.println(str);
             str2 = checkTemperature(str, 21.0); //do this fxml
+
             dout.writeUTF(str2);
             dout.flush();
 
@@ -48,17 +49,7 @@ public class ServerNode {
             result = "on#cooling#" + dataArray[0];
             if (listOfHC.size() < 5) listOfHC.add(result);
         } else {
-            //check if heating/cooling systems are turned on
-            Iterator<String> iterator = listOfHC.iterator();
-            while (iterator.hasNext()) {
-                if (iterator.toString().equals("on#heating" + dataArray[0])) {
-                    result = "off#heating#" + dataArray[0];
-                } else if (iterator.toString().equals("on#cooling" + dataArray[0])) {
-                    result = "off#cooling#" + dataArray[0];
-                } else {
-                    break;
-                }
-            }
+            result = "good#good#good";
         }
 
         return result;

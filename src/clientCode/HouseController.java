@@ -3,6 +3,8 @@ package clientCode;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -24,6 +26,36 @@ public class HouseController implements Initializable {
 
     @FXML
     Text bedroomTemp;
+
+    @FXML
+    ImageView livingRoomHotWave;
+
+    @FXML
+    ImageView livingRoomColdWave;
+
+    @FXML
+    ImageView kitchenHotWave;
+
+    @FXML
+    ImageView kitchenColdWave;
+
+    @FXML
+    ImageView bathroomHotWave;
+
+    @FXML
+    ImageView bathroomFan;
+
+    @FXML
+    ImageView wcHotWave;
+
+    @FXML
+    ImageView wcFan;
+
+    @FXML
+    ImageView bedroomHotWave;
+
+    @FXML
+    ImageView bedroomColdWave;
 
     SensorNode livingSensor = new SensorNode();
     Room livingRoom = new Room("livingRoom", livingSensor.getCurrentRoomTemp(), false, livingSensor);
@@ -69,29 +101,25 @@ public class HouseController implements Initializable {
                     System.out.println(result);
                     String[] data = result.split("#");
                     if (data[1].equals("cooling")) {
+                        System.out.println("cool");
                         //call coolingFunc
-
                         try {
                             coolingFunction(data[2], data[0], 21.0);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    } else {
+                    } else if (data[1].equals("heating")) {
+                        System.out.println("heat");
                         //call heatingFunc
 
                         heatingFunction(data[2], data[0], 21.0);
-
                     }
 
                 }
                 return null;
             }
         };
-        new
-
-                Thread(task).
-
-                start();
+        new Thread(task).start();
 
     }
 
@@ -104,6 +132,17 @@ public class HouseController implements Initializable {
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Cooling System!");
                     while (livingRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(livingRoomColdWave, 1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(15000);
                         System.out.println("change in 1");
                         livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() - 1);
@@ -113,6 +152,17 @@ public class HouseController implements Initializable {
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Cooling System!");
                     while (livingRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(livingRoomColdWave, 2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(10000);
                         System.out.println("change in 1");
                         livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() - 1);
@@ -121,6 +171,17 @@ public class HouseController implements Initializable {
                 } else {
                     System.out.println("Turning on the Cooling System!");
                     while (livingRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(livingRoomColdWave, 3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(5000);
                         System.out.println("change in 1");
                         livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() - 1);
@@ -143,6 +204,17 @@ public class HouseController implements Initializable {
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Cooling System!");
                     while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(kitchenColdWave, 1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(15000);
                         System.out.println("change in 1");
                         kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() - 1);
@@ -152,6 +224,17 @@ public class HouseController implements Initializable {
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Cooling System!");
                     while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(kitchenColdWave, 2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(10000);
                         System.out.println("change in 1");
                         kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() - 1);
@@ -160,6 +243,17 @@ public class HouseController implements Initializable {
                 } else {
                     System.out.println("Turning on the Cooling System!");
                     while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(kitchenColdWave, 3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(5000);
                         System.out.println("change in 1");
                         kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() - 1);
@@ -244,6 +338,51 @@ public class HouseController implements Initializable {
         } else if (onoff.equals("off")) {
             //turn off animations
         }
+    }
+
+    public void coldWaveAnimation(ImageView image, int numOfFans) throws InterruptedException {
+        String filename = "Web 1920 – 1222";
+        long startTime = System.currentTimeMillis();
+        int time = 0;
+        switch (numOfFans) {
+            case 1:
+                time = 15000;
+                break;
+            case 2:
+                time = 10000;
+                break;
+            case 3:
+                time = 5000;
+                break;
+        }
+        while (System.currentTimeMillis() - startTime <= time) {
+            if (numOfFans == 1) {
+                image.setImage(null);
+                Thread.sleep(1000);
+                Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+            } else if (numOfFans == 2) {
+                Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+                img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+            } else {
+                Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+                img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+                img = new Image(getClass().getResource(filename + ".png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+            }
+        }
+
+        image.setImage(null);
     }
 
 
