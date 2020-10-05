@@ -1,11 +1,16 @@
 package clientCode;
 
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -101,7 +106,6 @@ public class HouseController implements Initializable {
                     System.out.println(result);
                     String[] data = result.split("#");
                     if (data[1].equals("cooling")) {
-                        System.out.println("cool");
                         //call coolingFunc
                         try {
                             coolingFunction(data[2], data[0], 21.0);
@@ -109,7 +113,6 @@ public class HouseController implements Initializable {
                             e.printStackTrace();
                         }
                     } else if (data[1].equals("heating")) {
-                        System.out.println("heat");
                         //call heatingFunc
 
                         heatingFunction(data[2], data[0], 21.0);
@@ -124,7 +127,6 @@ public class HouseController implements Initializable {
     }
 
     public void coolingFunction(String roomName, String onoff, double dtemp) throws InterruptedException {
-        System.out.println("hi");
         if (roomName.equals("livingRoom")) {
             if (onoff.equals("on")) {
                 double delta = livingRoom.getCurrentTemp() - dtemp;
@@ -136,7 +138,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(livingRoomColdWave, 1);
+                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp,  1);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -156,7 +158,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(livingRoomColdWave, 2);
+                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp,  2);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -175,7 +177,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(livingRoomColdWave, 3);
+                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp,  3);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -194,8 +196,6 @@ public class HouseController implements Initializable {
                 //1 fans -> 15 secs | if delta <1.5
 
 
-            } else if (onoff.equals("off")) {
-                //turn off animations
             }
         } else if (roomName.equals("kitchenRoom")) {
             if (onoff.equals("on")) {
@@ -208,7 +208,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(kitchenColdWave, 1);
+                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp,  1);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -228,7 +228,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(kitchenColdWave, 2);
+                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp,  2);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -247,7 +247,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(kitchenColdWave, 3);
+                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp,  3);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -266,8 +266,6 @@ public class HouseController implements Initializable {
                 //1 fans -> 15 secs | if delta <1.5
 
 
-            } else if (onoff.equals("off")) {
-                //turn off animations
             }
         } else if (roomName.equals("bedroom")) {
             if (onoff.equals("on")) {
@@ -276,6 +274,17 @@ public class HouseController implements Initializable {
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Cooling System!");
                     while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp,  1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(15000);
                         System.out.println("change in 1");
                         bedroom.setCurrentTemp(bedroom.getCurrentTemp() - 1);
@@ -285,6 +294,17 @@ public class HouseController implements Initializable {
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Cooling System!");
                     while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp,  2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(10000);
                         System.out.println("change in 1");
                         bedroom.setCurrentTemp(bedroom.getCurrentTemp() - 1);
@@ -293,6 +313,17 @@ public class HouseController implements Initializable {
                 } else {
                     System.out.println("Turning on the Cooling System!");
                     while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp,  3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                         Thread.sleep(5000);
                         System.out.println("change in 1");
                         bedroom.setCurrentTemp(bedroom.getCurrentTemp() - 1);
@@ -305,13 +336,22 @@ public class HouseController implements Initializable {
                 //1 fans -> 15 secs | if delta <1.5
 
 
-            } else if (onoff.equals("off")) {
-                //turn off animations
             }
         } else if (roomName.equals("bathroom")) {
             if (onoff.equals("on")) {
                 System.out.println("Turning on the Cooling System!");
                 while (bathroom.getCurrentTemp() != dtemp) {
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                coldWaveAnimation(bathroomFan, bathroom.getCurrentTemp() - dtemp, 0);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    t.start();
                     Thread.sleep(30000);
                     System.out.println("change in 1");
                     bathroom.setCurrentTemp(bathroom.getCurrentTemp() - 1);
@@ -320,14 +360,23 @@ public class HouseController implements Initializable {
                 // animation for 1 fan
 
 
-            } else if (onoff.equals("off")) {
-                //turn off animations
             }
         } else if (roomName.equals("wc")) {
             if (onoff.equals("on")) {
 
                 System.out.println("Turning on the Cooling System!");
                 while (wc.getCurrentTemp() != dtemp) {
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                coldWaveAnimation(wcFan, wc.getCurrentTemp() - dtemp, 0);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    t.start();
                     Thread.sleep(30000);
                     System.out.println("change in 1");
                     wc.setCurrentTemp(wc.getCurrentTemp() - 1);
@@ -335,16 +384,17 @@ public class HouseController implements Initializable {
                 }
                 // animation for 1 fan
             }
-        } else if (onoff.equals("off")) {
-            //turn off animations
         }
     }
 
-    public void coldWaveAnimation(ImageView image, int numOfFans) throws InterruptedException {
+    public void coldWaveAnimation(ImageView image, double delta, int numOfFans) throws InterruptedException {
         String filename = "Web 1920 – 1222";
         long startTime = System.currentTimeMillis();
         int time = 0;
         switch (numOfFans) {
+            case 0:
+                time = 30000;
+                break;
             case 1:
                 time = 15000;
                 break;
@@ -356,7 +406,10 @@ public class HouseController implements Initializable {
                 break;
         }
         while (System.currentTimeMillis() - startTime <= time) {
-            if (numOfFans == 1) {
+            if (numOfFans == 0) {
+                image.setRotate(image.getRotate() + 15);
+                Thread.sleep(60);
+            } else if (numOfFans == 1) {
                 image.setImage(null);
                 Thread.sleep(1000);
                 Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
@@ -382,7 +435,8 @@ public class HouseController implements Initializable {
             }
         }
 
-        image.setImage(null);
+        if(numOfFans != 0 && delta <= 1.0) image.setImage(null);
+        else if(numOfFans == 0 && delta <= 1.0) image.setRotate(0);
     }
 
 
