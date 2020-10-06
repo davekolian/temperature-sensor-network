@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -100,29 +101,39 @@ public class HouseController implements Initializable {
         Task task = new Task<Void>() {
 
             @Override
-            protected Void call() throws Exception {
+            protected Void call() throws IOException {
                 for (Room room : roomList) {
                     String result = SensorNode.connect("" + room);
                     System.out.println(result);
-                    String[] data = result.split("#");
-                    if (data[1].equals("cooling")) {
-                        //call coolingFunc
-                        try {
-                            coolingFunction(data[2], data[0], 21.0);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String[] data = result.split("#");
+                            if (data[1].equals("cooling")) {
+                                //call coolingFunc
+                                try {
+                                    coolingFunction(data[2], data[0], 21.0);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (data[1].equals("heating")) {
+                                //call heatingFunc
+                                try {
+                                    heatingFunction(data[2], data[0], 21.0);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    } else if (data[1].equals("heating")) {
-                        //call heatingFunc
-
-                        heatingFunction(data[2], data[0], 21.0);
-                    }
-
+                    });
+                    t.start();
                 }
                 return null;
             }
         };
         new Thread(task).start();
+
+            
 
     }
 

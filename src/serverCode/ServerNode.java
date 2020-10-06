@@ -7,23 +7,35 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ServerNode {
-    public static void main(String[] args) throws IOException {
+    public static void start(String[] resultArray) throws IOException {
+        int counter = 0;
+
         ServerSocket ss = new ServerSocket(3333);
 
         while (true) {
             Socket s = ss.accept();
             DataInputStream din = new DataInputStream(s.getInputStream());
             DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             String str = "", str2 = "";
 
             str = din.readUTF();
             System.out.println(str);
             str2 = checkTemperature(str, 21.0); //do this fxml
+            assert resultArray != null;
+            resultArray[counter] = str;
+
+            if(counter == 4){
+                ServerController.receiveTempRooms(resultArray);
+                counter = 0;
+                resultArray = null;
+                str2 += "\nredo";
+            }
 
             dout.writeUTF(str2);
             dout.flush();
+
+            counter++;
 
             din.close();
             s.close();
