@@ -9,7 +9,7 @@ public class SensorNode {
     public double getCurrentRoomTemp() {
         Random random = new Random();
 
-        return 20 + random.nextInt(5);
+        return 20;
     }
 
     public static String connect(String data) throws IOException {

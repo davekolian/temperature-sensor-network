@@ -138,7 +138,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp,  1);
+                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp, 1);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -158,7 +158,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp,  2);
+                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp, 2);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -177,7 +177,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp,  3);
+                                    coldWaveAnimation(livingRoomColdWave, livingRoom.getCurrentTemp() - dtemp, 3);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -208,7 +208,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp,  1);
+                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp, 1);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -228,7 +228,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp,  2);
+                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp, 2);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -247,7 +247,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp,  3);
+                                    coldWaveAnimation(kitchenColdWave, kitchenRoom.getCurrentTemp() - dtemp, 3);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -278,7 +278,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp,  1);
+                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp, 1);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -298,7 +298,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp,  2);
+                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp, 2);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -317,7 +317,7 @@ public class HouseController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp,  3);
+                                    coldWaveAnimation(bedroomColdWave, bedroom.getCurrentTemp() - dtemp, 3);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -435,13 +435,407 @@ public class HouseController implements Initializable {
             }
         }
 
-        if(numOfFans != 0 && delta <= 1.0) image.setImage(null);
-        else if(numOfFans == 0 && delta <= 1.0) image.setRotate(0);
+        if (numOfFans != 0 && delta <= 1.0) image.setImage(null);
+        else if (numOfFans == 0 && delta <= 1.0) image.setRotate(0);
     }
 
 
-    public void heatingFunction(String roomName, String onoff, double dtemp) {
+    public void heatingFunction(String roomName, String onoff, double dtemp) throws InterruptedException {
+        if (roomName.equals("livingRoom")) {
+            if (onoff.equals("on")) {
+                double delta = dtemp - livingRoom.getCurrentTemp();
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (livingRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(livingRoomHotWave, dtemp - livingRoom.getCurrentTemp(), 1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(17000);
+                        System.out.println("change in 1");
+                        livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() + 1);
+                        livingRoomTemp.setText("" + livingRoom.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (livingRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(livingRoomHotWave, dtemp - livingRoom.getCurrentTemp(), 2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(12000);
+                        System.out.println("change in 1");
+                        livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() + 1);
+                        livingRoomTemp.setText("" + livingRoom.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Heating System!");
+                    while (livingRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(livingRoomHotWave, dtemp - livingRoom.getCurrentTemp(), 3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(7000);
+                        System.out.println("change in 1");
+                        livingRoom.setCurrentTemp(livingRoom.getCurrentTemp() + 1);
+                        livingRoomTemp.setText("" + livingRoom.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            }
+        } else if (roomName.equals("kitchenRoom")) {
+            if (onoff.equals("on")) {
+                double delta = dtemp - kitchenRoom.getCurrentTemp();
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(kitchenHotWave, dtemp - kitchenRoom.getCurrentTemp(), 1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(17000);
+                        System.out.println("change in 1");
+                        kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() + 1);
+                        kitchenTemp.setText("" + kitchenRoom.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(kitchenHotWave, dtemp - kitchenRoom.getCurrentTemp(), 2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(12000);
+                        System.out.println("change in 1");
+                        kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() + 1);
+                        kitchenTemp.setText("" + kitchenRoom.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Heating System!");
+                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(kitchenHotWave, dtemp - kitchenRoom.getCurrentTemp(), 3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(7000);
+                        System.out.println("change in 1");
+                        kitchenRoom.setCurrentTemp(kitchenRoom.getCurrentTemp() + 1);
+                        kitchenTemp.setText("" + kitchenRoom.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            }
+        } else if (roomName.equals("bedroom")) {
+            if (onoff.equals("on")) {
+                double delta = dtemp - bedroom.getCurrentTemp();
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(bedroomHotWave, dtemp - bedroom.getCurrentTemp(), 1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(17000);
+                        System.out.println("change in 1");
+                        bedroom.setCurrentTemp(bedroom.getCurrentTemp() + 1);
+                        bedroomTemp.setText("" + bedroom.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(bedroomHotWave, dtemp - bedroom.getCurrentTemp(), 2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(12000);
+                        System.out.println("change in 1");
+                        bedroom.setCurrentTemp(bedroom.getCurrentTemp() + 1);
+                        bedroomTemp.setText("" + bedroom.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Heating System!");
+                    while (bedroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(bedroomHotWave, dtemp - bedroom.getCurrentTemp(), 3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(7000);
+                        System.out.println("change in 1");
+                        bedroom.setCurrentTemp(bedroom.getCurrentTemp() + 1);
+                        bedroomTemp.setText("" + bedroom.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            }
+        } else if (roomName.equals("bathroom")) {
+            if (onoff.equals("on")) {
+                double delta = dtemp - bathroom.getCurrentTemp();
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (bathroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(bathroomHotWave, dtemp - bathroom.getCurrentTemp(), 1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(17000);
+                        System.out.println("change in 1");
+                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() + 1);
+                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (bathroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(bathroomHotWave, dtemp - bathroom.getCurrentTemp(), 2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(12000);
+                        System.out.println("change in 1");
+                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() + 1);
+                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Heating System!");
+                    while (bathroom.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(bathroomHotWave, dtemp - bathroom.getCurrentTemp(), 3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(7000);
+                        System.out.println("change in 1");
+                        bathroom.setCurrentTemp(bathroom.getCurrentTemp() + 1);
+                        bathroomTemp.setText("" + bathroom.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+            }
+        } else if (roomName.equals("wc")) {
+            if (onoff.equals("on")) {
+                double delta = dtemp - wc.getCurrentTemp();
+
+                if (delta <= 1.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (wc.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(wcHotWave, dtemp - wc.getCurrentTemp(), 1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(17000);
+                        System.out.println("change in 1");
+                        wc.setCurrentTemp(wc.getCurrentTemp() + 1);
+                        wcTemp.setText("" + wc.getCurrentTemp());
+                    }
+                    // animation for 1 fan
+                } else if (delta > 1.5 && delta <= 2.5) {
+                    System.out.println("Turning on the Heating System!");
+                    while (wc.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(wcHotWave, dtemp - wc.getCurrentTemp(), 2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(12000);
+                        System.out.println("change in 1");
+                        wc.setCurrentTemp(wc.getCurrentTemp() + 1);
+                        wcTemp.setText("" + wc.getCurrentTemp());
+                    }
+                } else {
+                    System.out.println("Turning on the Heating System!");
+                    while (wc.getCurrentTemp() != dtemp) {
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hotWaveAnimation(wcHotWave, dtemp - wc.getCurrentTemp(), 3);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
+                        Thread.sleep(7000);
+                        System.out.println("change in 1");
+                        wc.setCurrentTemp(wc.getCurrentTemp() + 1);
+                        wcTemp.setText("" + wc.getCurrentTemp());
+                    }
+                }
+
+                //3 fans - > 5 secs | if delta >2.5
+                //2 fans -> 10 secs | if delta >1.5 and <2.5
+                //1 fans -> 15 secs | if delta <1.5
+
+
+            }
+        }
 
     }
 
+    public void hotWaveAnimation(ImageView image, double delta, int numOfFans) throws InterruptedException {
+        String filename = "Web 1920 – 12";
+        long startTime = System.currentTimeMillis();
+        int time = 0;
+        switch (numOfFans) {
+            case 1:
+                time = 17000;
+                break;
+            case 2:
+                time = 12000;
+                break;
+            case 3:
+                time = 7000;
+                break;
+        }
+        while (System.currentTimeMillis() - startTime <= time) {
+            if (numOfFans == 1) {
+                image.setImage(null);
+                Thread.sleep(1000);
+                Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+            } else if (numOfFans == 2) {
+                Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+                img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+            } else {
+                Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+                img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+                img = new Image(getClass().getResource(filename + ".png").toExternalForm());
+                image.setImage(img);
+                Thread.sleep(1000);
+            }
+        }
+
+        if (delta <= 1.0) image.setImage(null);
+    }
 }
