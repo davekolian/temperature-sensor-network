@@ -22,15 +22,10 @@ public class ServerNode {
             str = din.readUTF();
             System.out.println(str);
             str2 = checkTemperature(str, 21.0); //do this fxml
-            assert resultArray != null;
-            resultArray[counter] = str;
 
-            if(counter == 4){
-                ServerController.receiveTempRooms(resultArray);
-                counter = 0;
-                resultArray = null;
-                str2 += "\nredo";
-            }
+
+            ServerController.receiveTempRooms(str);
+
 
             dout.writeUTF(str2);
             dout.flush();

@@ -12,7 +12,7 @@ public class SensorNode {
         return 15 + random.nextInt(10);
     }
 
-    public static String connect(String data) throws IOException {
+    public  String connect(String data) throws IOException {
         Socket s = new Socket("localhost", 3333);
         DataInputStream din = new DataInputStream(s.getInputStream());
         DataOutputStream dout = new DataOutputStream(s.getOutputStream());

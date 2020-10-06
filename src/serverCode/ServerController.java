@@ -58,21 +58,21 @@ public class ServerController implements Initializable {
 
     }
 
-    public static void receiveTempRooms(String[] result) {
-        for (String str : result) {
-            String[] data = str.split("#");
-            if (data[0].equals("livingRoom")) {
-                statLivingRoomTemp.setText("" + data[1]);
-            } else if (data[0].equals("kitchenRoom")){
-                statKitchenTemp.setText(""+data[1]);
-            } else if(data[0].equals("bedroom")){
-                statBedroomTemp.setText(""+data[1]);
-            } else if(data[0].equals("bathroom")){
-                statBathroomTemp.setText(""+data[1]);
-            } else if(data[0].equals("wc")){
-                statWcTemp.setText(""+data[1]);
-            }
-        }
+    public static void receiveTempRooms(String result) {
 
+        String[] data = result.split("#");
+        if (data[0].equals("livingRoom")) {
+            statLivingRoomTemp.setText("" + data[1]);
+        } else if (data[0].equals("kitchenRoom")) {
+            statKitchenTemp.setText("" + data[1]);
+        } else if (data[0].equals("bedroom")) {
+            statBedroomTemp.setText("" + data[1]);
+        } else if (data[0].equals("bathroom")) {
+            statBathroomTemp.setText("" + data[1]);
+        } else if (data[0].equals("wc")) {
+            statWcTemp.setText("" + data[1]);
+        }
     }
+
+
 }

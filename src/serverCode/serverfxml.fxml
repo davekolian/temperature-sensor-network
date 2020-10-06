@@ -13,7 +13,7 @@
             <Image url="@Web%201920%20–%202.png" />
          </image>
       </ImageView>
-      <Text fx:id="houseTemp" fill="#fa2121" layoutX="261.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0">
+      <Text fx:id="houseTemp" fill="#fa2121" layoutX="261.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0">
          <font>
             <Font size="11.0" />
          </font>

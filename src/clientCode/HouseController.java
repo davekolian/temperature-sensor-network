@@ -103,7 +103,7 @@ public class HouseController implements Initializable {
             @Override
             protected Void call() throws IOException {
                 for (Room room : roomList) {
-                    String result = SensorNode.connect("" + room);
+                    String result = room.getSensor().connect("" + room);
                     System.out.println(result);
                     Thread t = new Thread(new Runnable() {
                         @Override
@@ -113,14 +113,20 @@ public class HouseController implements Initializable {
                                 //call coolingFunc
                                 try {
                                     coolingFunction(data[2], data[0], 21.0);
-                                } catch (InterruptedException e) {
+                                    if(room.getCurrentTemp() == 21.0){
+                                        room.getSensor().connect(room.getName()+"#"+room.getCurrentTemp()+"#false");
+                                    }
+                                } catch (InterruptedException | IOException e) {
                                     e.printStackTrace();
                                 }
                             } else if (data[1].equals("heating")) {
                                 //call heatingFunc
                                 try {
                                     heatingFunction(data[2], data[0], 21.0);
-                                } catch (InterruptedException e) {
+                                    if(room.getCurrentTemp() == 21.0){
+                                        room.getSensor().connect(room.getName()+"#"+room.getCurrentTemp()+"#false");
+                                    }
+                                } catch (InterruptedException | IOException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -132,9 +138,6 @@ public class HouseController implements Initializable {
             }
         };
         new Thread(task).start();
-
-            
-
     }
 
     public void coolingFunction(String roomName, String onoff, double dtemp) throws InterruptedException {
