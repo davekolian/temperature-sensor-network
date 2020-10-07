@@ -1,7 +1,12 @@
 package serverCode;
 
+import clientCode.HouseController;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -33,6 +38,12 @@ public class ServerController implements Initializable {
     Text wcTemp;
 
     static Text statWcTemp;
+
+    @FXML
+    Button houseHighBtn;
+
+    @FXML
+    Button houseLowBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -72,6 +83,16 @@ public class ServerController implements Initializable {
         } else if (data[0].equals("wc")) {
             statWcTemp.setText("" + data[1]);
         }
+    }
+
+    @FXML
+    public void increaseTemp(Event event){
+        System.out.println("inc");
+    }
+
+    @FXML
+    public void decreaseTemp(Event event){
+        System.out.println("dec");
     }
 
 

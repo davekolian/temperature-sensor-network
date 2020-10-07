@@ -13,7 +13,7 @@ public class ServerMain extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("serverfxml.fxml"));
         stage.setTitle("Server");
-        stage.setScene(new Scene(root, 380, 630));
+        stage.setScene(new Scene(root, 330, 590));
         stage.show();
     }
 
