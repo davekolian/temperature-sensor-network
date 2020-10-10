@@ -15,6 +15,11 @@ import java.util.ResourceBundle;
 
 public class ServerController implements Initializable {
     @FXML
+    Text houseTemp;
+
+    static Text statHouseTemp;
+
+    @FXML
     Text livingRoomTemp;
 
     static Text statLivingRoomTemp;
@@ -45,6 +50,11 @@ public class ServerController implements Initializable {
     @FXML
     Button houseLowBtn;
 
+    public ServerNode server;
+
+    public ServerNode server2;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ServerController.statLivingRoomTemp = livingRoomTemp;
@@ -52,24 +62,18 @@ public class ServerController implements Initializable {
         ServerController.statKitchenTemp = kitchenTemp;
         ServerController.statBathroomTemp = bathroomTemp;
         ServerController.statWcTemp = wcTemp;
+        ServerController.statHouseTemp = houseTemp;
 
-        String[] data = new String[5];
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ServerNode.start(data);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
+
+        server = new ServerNode(houseTemp.getText(), 3333);
+        server2 = new ServerNode(houseTemp.getText(), 3334);
 
 
     }
 
     public static void receiveTempRooms(String result) {
+        if (result.equals("init"))
+            return;
 
         String[] data = result.split("#");
         if (data[0].equals("livingRoom")) {
@@ -86,14 +90,30 @@ public class ServerController implements Initializable {
     }
 
     @FXML
-    public void increaseTemp(Event event){
+    public void increaseTemp(Event event) throws IOException {
         System.out.println("inc");
+        String newTemp = "" + (Double.parseDouble(houseTemp.getText()) + 1);
+        houseTemp.setText(newTemp);
+/*        server.stopMe();
+
+        server = new ServerNode(newTemp);*/
+
     }
 
     @FXML
-    public void decreaseTemp(Event event){
+    public void decreaseTemp(Event event) throws IOException {
         System.out.println("dec");
+        String newTemp = "" + (Double.parseDouble(houseTemp.getText()) - 1);
+        houseTemp.setText(newTemp);
+/*        server.stopMe();
+
+        server = new ServerNode(newTemp, 3333);*/
     }
 
+    public static String getHouseTempText() {
+        System.out.println(statHouseTemp.getText());
+        return statHouseTemp.getText();
+    }
 
 }
+

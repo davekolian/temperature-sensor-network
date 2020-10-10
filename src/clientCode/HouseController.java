@@ -9,8 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -78,6 +76,9 @@ public class HouseController implements Initializable {
     SensorNode wcSensor = new SensorNode();
     Room wc = new Room("wc", wcSensor.getCurrentRoomTemp(), false, wcSensor);
 
+    public double dtemp = 0.0;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Room> roomList = new ArrayList<>();
@@ -97,57 +98,57 @@ public class HouseController implements Initializable {
         wcTemp.setText("" + wc.getCurrentTemp());
         roomList.add(wc);
 
+        String res = null;
+        try {
+            res = SensorNode.connect("init", 3333);
 
-        Task task = new Task<Void>() {
+            String[] tempAr = res.split("#");
+            dtemp = Double.parseDouble(tempAr[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+
+        Thread startNew = new Thread(new Runnable() {
             @Override
-            protected Void call() throws IOException {
-                for (Room room : roomList) {
-                    String result = room.getSensor().connect("" + room);
-                    System.out.println(result);
-                    Thread t = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String[] data = result.split("#");
-                            if (data[1].equals("cooling")) {
-                                //call coolingFunc
-                                try {
-                                    coolingFunction(data[2], data[0], 21.0);
-                                    if(room.getCurrentTemp() == 21.0){
-                                        room.getSensor().connect(room.getName()+"#"+room.getCurrentTemp()+"#false");
-                                    }
-                                } catch (InterruptedException | IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else if (data[1].equals("heating")) {
-                                //call heatingFunc
-                                try {
-                                    heatingFunction(data[2], data[0], 21.0);
-                                    if(room.getCurrentTemp() == 21.0){
-                                        room.getSensor().connect(room.getName()+"#"+room.getCurrentTemp()+"#false");
-                                    }
-                                } catch (InterruptedException | IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    });
-                    t.start();
-                }
-                return null;
+            public void run() {
+                checkingHouseTemp(roomList);
             }
-        };
-        new Thread(task).start();
+        });
+        startNew.start();
+
+
+        Thread newClient = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        String res = SensorNode.connect("init", 3334);
+                        String[] data = res.split("#");
+                        if (Double.parseDouble(data[1]) != dtemp) {
+                            dtemp = Double.parseDouble(data[1]);
+                            checkingHouseTemp(roomList);
+                            System.out.println("NS: " + res);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        newClient.start();
+
     }
 
-    public void coolingFunction(String roomName, String onoff, double dtemp) throws InterruptedException {
+
+    public void coolingFunction(String roomName, String onoff) throws InterruptedException {
         if (roomName.equals("livingRoom")) {
             if (onoff.equals("on")) {
                 double delta = livingRoom.getCurrentTemp() - dtemp;
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Cooling System!");
-                    while (livingRoom.getCurrentTemp() != dtemp) {
+                    while (livingRoom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -167,7 +168,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Cooling System!");
-                    while (livingRoom.getCurrentTemp() != dtemp) {
+                    while (livingRoom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -186,7 +187,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Cooling System!");
-                    while (livingRoom.getCurrentTemp() != dtemp) {
+                    while (livingRoom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -217,7 +218,7 @@ public class HouseController implements Initializable {
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Cooling System!");
-                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                    while (kitchenRoom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -237,7 +238,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Cooling System!");
-                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                    while (kitchenRoom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -256,7 +257,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Cooling System!");
-                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                    while (kitchenRoom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -287,7 +288,7 @@ public class HouseController implements Initializable {
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Cooling System!");
-                    while (bedroom.getCurrentTemp() != dtemp) {
+                    while (bedroom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -307,7 +308,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Cooling System!");
-                    while (bedroom.getCurrentTemp() != dtemp) {
+                    while (bedroom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -326,7 +327,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Cooling System!");
-                    while (bedroom.getCurrentTemp() != dtemp) {
+                    while (bedroom.getCurrentTemp() > dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -354,7 +355,7 @@ public class HouseController implements Initializable {
         } else if (roomName.equals("bathroom")) {
             if (onoff.equals("on")) {
                 System.out.println("Turning on the Cooling System!");
-                while (bathroom.getCurrentTemp() != dtemp) {
+                while (bathroom.getCurrentTemp() > dtemp) {
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -379,7 +380,7 @@ public class HouseController implements Initializable {
             if (onoff.equals("on")) {
 
                 System.out.println("Turning on the Cooling System!");
-                while (wc.getCurrentTemp() != dtemp) {
+                while (wc.getCurrentTemp() > dtemp) {
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -454,14 +455,14 @@ public class HouseController implements Initializable {
     }
 
 
-    public void heatingFunction(String roomName, String onoff, double dtemp) throws InterruptedException {
+    public void heatingFunction(String roomName, String onoff) throws InterruptedException {
         if (roomName.equals("livingRoom")) {
             if (onoff.equals("on")) {
                 double delta = dtemp - livingRoom.getCurrentTemp();
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (livingRoom.getCurrentTemp() != dtemp) {
+                    while (livingRoom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -481,7 +482,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (livingRoom.getCurrentTemp() != dtemp) {
+                    while (livingRoom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -500,7 +501,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Heating System!");
-                    while (livingRoom.getCurrentTemp() != dtemp) {
+                    while (livingRoom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -531,7 +532,7 @@ public class HouseController implements Initializable {
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                    while (kitchenRoom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -551,7 +552,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                    while (kitchenRoom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -570,7 +571,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Heating System!");
-                    while (kitchenRoom.getCurrentTemp() != dtemp) {
+                    while (kitchenRoom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -601,7 +602,7 @@ public class HouseController implements Initializable {
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (bedroom.getCurrentTemp() != dtemp) {
+                    while (bedroom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -621,7 +622,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (bedroom.getCurrentTemp() != dtemp) {
+                    while (bedroom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -640,7 +641,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Heating System!");
-                    while (bedroom.getCurrentTemp() != dtemp) {
+                    while (bedroom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -671,7 +672,7 @@ public class HouseController implements Initializable {
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (bathroom.getCurrentTemp() != dtemp) {
+                    while (bathroom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -691,7 +692,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (bathroom.getCurrentTemp() != dtemp) {
+                    while (bathroom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -710,7 +711,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Heating System!");
-                    while (bathroom.getCurrentTemp() != dtemp) {
+                    while (bathroom.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -740,7 +741,7 @@ public class HouseController implements Initializable {
 
                 if (delta <= 1.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (wc.getCurrentTemp() != dtemp) {
+                    while (wc.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -760,7 +761,7 @@ public class HouseController implements Initializable {
                     // animation for 1 fan
                 } else if (delta > 1.5 && delta <= 2.5) {
                     System.out.println("Turning on the Heating System!");
-                    while (wc.getCurrentTemp() != dtemp) {
+                    while (wc.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -779,7 +780,7 @@ public class HouseController implements Initializable {
                     }
                 } else {
                     System.out.println("Turning on the Heating System!");
-                    while (wc.getCurrentTemp() != dtemp) {
+                    while (wc.getCurrentTemp() < dtemp) {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -851,5 +852,50 @@ public class HouseController implements Initializable {
         }
 
         if (delta <= 1.0) image.setImage(null);
+    }
+
+    public void checkingHouseTemp(ArrayList<Room> roomList) {
+        for (Room room : roomList) {
+            String result = null;
+            try {
+                result = SensorNode.connect("" + room, 3333);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(result);
+
+            double finaldtemp = dtemp;
+            System.out.println(dtemp);
+            //If not in a new thread each room will be executed one by one
+            String finalResult = result;
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String[] data = finalResult.split("#");
+                    if (data[1].equals("cooling")) {
+                        //call coolingFunc
+                        try {
+                            coolingFunction(data[2], data[0]);
+                            if (room.getCurrentTemp() == finaldtemp) {
+                                SensorNode.connect(room.getName() + "#" + room.getCurrentTemp() + "#false", 3333);
+                            }
+                        } catch (InterruptedException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (data[1].equals("heating")) {
+                        //call heatingFunc
+                        try {
+                            heatingFunction(data[2], data[0]);
+                            if (room.getCurrentTemp() == finaldtemp) {
+                                SensorNode.connect(room.getName() + "#" + room.getCurrentTemp() + "#false", 3333);
+                            }
+                        } catch (InterruptedException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            t.start();
+        }
     }
 }
