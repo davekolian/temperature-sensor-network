@@ -3,7 +3,6 @@ package serverCode;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class ServerNode implements Runnable {
     public static boolean finished;

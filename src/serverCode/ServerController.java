@@ -7,10 +7,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ServerController implements Initializable {
@@ -50,10 +52,8 @@ public class ServerController implements Initializable {
     @FXML
     Button houseLowBtn;
 
-    public ServerNode server;
-
-    public ServerNode server2;
-
+    @FXML
+    Pane toHide;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,8 +65,22 @@ public class ServerController implements Initializable {
         ServerController.statHouseTemp = houseTemp;
 
 
-        server = new ServerNode(houseTemp.getText(), 3333);
-        server2 = new ServerNode(houseTemp.getText(), 3334);
+        ServerNode server = new ServerNode(houseTemp.getText(), 3333);
+        ServerNode server2 = new ServerNode(houseTemp.getText(), 3334);
+
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    if(compareHouseRoomTemp()){
+                        toHide.setVisible(false);
+                    } else {
+                        toHide.setVisible(true);
+                    }
+                }
+            }
+        });
+        th.start();
 
 
     }
@@ -94,10 +108,6 @@ public class ServerController implements Initializable {
         System.out.println("inc");
         String newTemp = "" + (Double.parseDouble(houseTemp.getText()) + 1);
         houseTemp.setText(newTemp);
-/*        server.stopMe();
-
-        server = new ServerNode(newTemp);*/
-
     }
 
     @FXML
@@ -105,14 +115,28 @@ public class ServerController implements Initializable {
         System.out.println("dec");
         String newTemp = "" + (Double.parseDouble(houseTemp.getText()) - 1);
         houseTemp.setText(newTemp);
-/*        server.stopMe();
-
-        server = new ServerNode(newTemp, 3333);*/
     }
 
     public static String getHouseTempText() {
         System.out.println(statHouseTemp.getText());
         return statHouseTemp.getText();
+    }
+
+    public boolean compareHouseRoomTemp() {
+        ArrayList<Text> textArrayList = new ArrayList<>();
+        textArrayList.add(livingRoomTemp);
+        textArrayList.add(kitchenTemp);
+        textArrayList.add(bedroomTemp);
+        textArrayList.add(bathroomTemp);
+        textArrayList.add(wcTemp);
+
+        for (Text text : textArrayList) {
+            if(text.getText().equals("")) return false;
+            if (Double.parseDouble(text.getText()) != Double.parseDouble(houseTemp.getText())) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -64,6 +64,20 @@
               </ImageView>
           </graphic>
       </Button>
+      <Pane fx:id="toHide" prefHeight="590.0" prefWidth="330.0" visible="false">
+         <children>
+            <ImageView blendMode="MULTIPLY" fitHeight="590.0" fitWidth="330.0" focusTraversable="true" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@blackScreen.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="89.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please wait while the temperature is being changed!" wrappingWidth="151.548828125">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
 
     </children>
 </Pane>
