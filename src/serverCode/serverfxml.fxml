@@ -14,11 +14,16 @@
                 <Image url="@Web%201920%20–%202.png" />
             </image>
         </ImageView>
-        <Text fx:id="houseTemp" fill="#fa2121" layoutX="247.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0">
+        <Text fx:id="houseTemp" fill="WHITE" layoutX="254.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0">
             <font>
                 <Font size="11.0" />
             </font>
         </Text>
+      <Text fx:id="houseTempFake" fill="#fa2121" layoutX="246.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Text>
         <Text fx:id="livingRoomTemp" fill="#fa2121" layoutX="247.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0">
             <font>
                 <Font size="11.0" />
@@ -45,7 +50,7 @@
             </font>
         </Text>
         
-      <Button layoutX="242.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#decreaseTemp" prefHeight="24.0" prefWidth="27.0" style="-fx-background-color: transparent;">
+      <Button layoutX="248.0" layoutY="143.0" mnemonicParsing="false" onMouseClicked="#changeTemp" prefHeight="24.0" prefWidth="27.0" style="-fx-background-color: transparent;" text="-">
           <graphic>
               <ImageView fx:id="houseltempbtn" fitHeight="24.0" fitWidth="27.0">
                   <image>
@@ -53,9 +58,12 @@
                   </image>
               </ImageView>
           </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
       </Button>
 
-      <Button layoutX="242.0" layoutY="83.0" mnemonicParsing="false" onMouseClicked="#increaseTemp" prefHeight="24.0" prefWidth="27.0" style="-fx-background-color: transparent;">
+      <Button layoutX="248.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#changeTemp" prefHeight="24.0" prefWidth="27.0" style="-fx-background-color: transparent;" text="+" textOverrun="CLIP">
           <graphic>
               <ImageView fx:id="househtempbtn" fitHeight="24.0" fitWidth="27.0" rotate="-180.0">
                   <image>
@@ -63,6 +71,9 @@
                   </image>
               </ImageView>
           </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
       </Button>
       <Pane fx:id="toHide" prefHeight="590.0" prefWidth="330.0" visible="false">
          <children>

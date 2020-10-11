@@ -22,8 +22,6 @@ public class ServerNode implements Runnable {
 
     @Override
     public void run() {
-        int counter = 0;
-
         try {
             ss = new ServerSocket(port);
 
@@ -36,21 +34,18 @@ public class ServerNode implements Runnable {
 
                 str = din.readUTF();
 
-                if(str.equals("")){
+                if (str.equals("")) {
                     din.close();
                     dout.close();
                     s.close();
                 }
 
                 str2 = checkTemperature(str); //do this fxml
-                System.out.println(str2);
 
                 ServerController.receiveTempRooms(str);
 
                 dout.writeUTF(str2);
                 dout.flush();
-
-                counter++;
 
                 dout.close();
                 din.close();
@@ -74,9 +69,9 @@ public class ServerNode implements Runnable {
     }
 
     public String checkTemperature(String data) {
-        if(data.equals("init")){
+        if (data.equals("init")) {
             desiredTemp = Double.parseDouble(ServerController.getHouseTempText());
-            return "change#"+desiredTemp;
+            return "change#" + desiredTemp;
         }
 
         desiredTemp = Double.parseDouble(ServerController.getHouseTempText());

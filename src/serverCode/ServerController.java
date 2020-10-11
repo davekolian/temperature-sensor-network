@@ -55,6 +55,16 @@ public class ServerController implements Initializable {
     @FXML
     Pane toHide;
 
+    @FXML
+    Text houseTempFake;
+
+    public static boolean showScreen = false;
+    public static boolean isSameTemp = false;
+
+    public int counter = 0;
+    public int totalCounter = 0;
+    public int timeCounter = 3000;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ServerController.statLivingRoomTemp = livingRoomTemp;
@@ -71,21 +81,29 @@ public class ServerController implements Initializable {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(true){
-                    if(compareHouseRoomTemp()){
+                while (true) {
+                    isSameTemp = compareHouseRoomTemp();
+                    if (showScreen && !isSameTemp) {
+                        toHide.setVisible(true);
+                    } else if (isSameTemp) {
                         toHide.setVisible(false);
                     } else {
-                        toHide.setVisible(true);
+                        toHide.setVisible(false);
                     }
                 }
             }
         });
         th.start();
 
-
+        //Before client starts -> dont show screen
+        //After client starts -> show screen till ALL same temp
+        //When ALL same temp -> dont show
+        //When button is pressed wait time till confirmed
     }
 
     public static void receiveTempRooms(String result) {
+        showScreen = true;
+
         if (result.equals("init"))
             return;
 
@@ -103,22 +121,8 @@ public class ServerController implements Initializable {
         }
     }
 
-    @FXML
-    public void increaseTemp(Event event) throws IOException {
-        System.out.println("inc");
-        String newTemp = "" + (Double.parseDouble(houseTemp.getText()) + 1);
-        houseTemp.setText(newTemp);
-    }
-
-    @FXML
-    public void decreaseTemp(Event event) throws IOException {
-        System.out.println("dec");
-        String newTemp = "" + (Double.parseDouble(houseTemp.getText()) - 1);
-        houseTemp.setText(newTemp);
-    }
-
     public static String getHouseTempText() {
-        System.out.println(statHouseTemp.getText());
+        //System.out.println(statHouseTemp.getText());
         return statHouseTemp.getText();
     }
 
@@ -131,12 +135,49 @@ public class ServerController implements Initializable {
         textArrayList.add(wcTemp);
 
         for (Text text : textArrayList) {
-            if(text.getText().equals("")) return false;
+            if (text.getText().equals("")) return false;
             if (Double.parseDouble(text.getText()) != Double.parseDouble(houseTemp.getText())) {
                 return false;
             }
         }
         return true;
+    }
+
+    public String newTemp = "";
+
+    @FXML
+    public void changeTemp(Event event) {
+        long startTime = System.currentTimeMillis();
+        totalCounter++;
+        if (((Button) event.getSource()).getText().equals("+")) {
+            System.out.println("inc");
+            newTemp = "" + (Double.parseDouble(houseTempFake.getText()) + 1);
+            houseTempFake.setText(newTemp);
+            counter++;
+        } else if (((Button) event.getSource()).getText().equals("-")) {
+            System.out.println("dec");
+            newTemp = "" + (Double.parseDouble(houseTempFake.getText()) - 1);
+            houseTempFake.setText(newTemp);
+            counter--;
+        }
+
+        Thread t = new Thread(() -> {
+                while (System.currentTimeMillis() - startTime <= timeCounter) {
+                    //System.out.println("please wait for timer");
+                    showScreen = false;
+                }
+
+                totalCounter = 0;
+                System.out.println("timer done show new temp in real and put screen");
+
+                houseTemp.setText(houseTempFake.getText());
+                if (houseTemp.getText().equals(houseTempFake.getText()))
+                    showScreen = true;
+
+                System.out.println(System.currentTimeMillis() - startTime + " " + counter + " " + totalCounter);
+
+        });
+        t.start();
     }
 
 }

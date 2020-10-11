@@ -6,14 +6,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class ServerMain extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("serverfxml.fxml"));
         stage.setTitle("Server");
         stage.setScene(new Scene(root, 330, 590));
+        //stage.getIcons().add(new Image(Main.class.getResourceAsStream("sudoku.png")));
         stage.show();
     }
 
