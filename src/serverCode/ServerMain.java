@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class ServerMain extends Application {
@@ -12,7 +13,7 @@ public class ServerMain extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("serverfxml.fxml"));
         stage.setTitle("Server");
         stage.setScene(new Scene(root, 330, 590));
-        //stage.getIcons().add(new Image(Main.class.getResourceAsStream("sudoku.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("serverLogo.png")));
         stage.show();
     }
 

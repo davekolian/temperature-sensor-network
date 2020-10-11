@@ -1,12 +1,9 @@
 package serverCode;
 
-import clientCode.HouseController;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -47,12 +44,6 @@ public class ServerController implements Initializable {
     static Text statWcTemp;
 
     @FXML
-    Button houseHighBtn;
-
-    @FXML
-    Button houseLowBtn;
-
-    @FXML
     Pane toHide;
 
     @FXML
@@ -64,6 +55,7 @@ public class ServerController implements Initializable {
     public int counter = 0;
     public int totalCounter = 0;
     public int timeCounter = 3000;
+    public String newTemp = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,6 +76,11 @@ public class ServerController implements Initializable {
                 while (true) {
                     isSameTemp = compareHouseRoomTemp();
                     if (showScreen && !isSameTemp) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         toHide.setVisible(true);
                     } else if (isSameTemp) {
                         toHide.setVisible(false);
@@ -95,10 +92,6 @@ public class ServerController implements Initializable {
         });
         th.start();
 
-        //Before client starts -> dont show screen
-        //After client starts -> show screen till ALL same temp
-        //When ALL same temp -> dont show
-        //When button is pressed wait time till confirmed
     }
 
     public static void receiveTempRooms(String result) {
@@ -143,8 +136,6 @@ public class ServerController implements Initializable {
         return true;
     }
 
-    public String newTemp = "";
-
     @FXML
     public void changeTemp(Event event) {
         long startTime = System.currentTimeMillis();
@@ -161,7 +152,9 @@ public class ServerController implements Initializable {
             counter--;
         }
 
-        Thread t = new Thread(() -> {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
                 while (System.currentTimeMillis() - startTime <= timeCounter) {
                     //System.out.println("please wait for timer");
                     showScreen = false;
@@ -175,7 +168,7 @@ public class ServerController implements Initializable {
                     showScreen = true;
 
                 System.out.println(System.currentTimeMillis() - startTime + " " + counter + " " + totalCounter);
-
+            }
         });
         t.start();
     }

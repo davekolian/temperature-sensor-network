@@ -74,7 +74,6 @@ public class HouseController implements Initializable {
 
     public double dtemp = 0.0;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Room> roomList = new ArrayList<>();
@@ -101,7 +100,7 @@ public class HouseController implements Initializable {
             String[] tempAr = res.split("#");
             dtemp = Double.parseDouble(tempAr[1]);
         } catch (IOException e) {
-            e.printStackTrace();
+            //System.out.println("Error with connection to first server!");
         }
 
 
@@ -113,27 +112,25 @@ public class HouseController implements Initializable {
         });
         startNew.start();
 
-
         Thread newClient = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        String res = SensorNode.connect("init", 3334);
-                        String[] data = res.split("#");
+                        String res2 = SensorNode.connect("init", 3334);
+                        String[] data = res2.split("#");
                         if (Double.parseDouble(data[1]) != dtemp) {
                             dtemp = Double.parseDouble(data[1]);
                             checkingHouseTemp(roomList);
-                            System.out.println("NS: " + res);
+                            System.out.println("NS: " + res2);
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        //System.out.println("Error with connection to the second server!");
                     }
                 }
             }
         });
         newClient.start();
-
     }
 
 
@@ -421,14 +418,16 @@ public class HouseController implements Initializable {
                 image.setRotate(image.getRotate() + 15);
                 Thread.sleep(60);
             } else if (numOfFans == 1) {
-                image.setImage(null);
+                image.setVisible(false);
                 Thread.sleep(1000);
                 Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
                 image.setImage(img);
+                image.setVisible(true);
                 Thread.sleep(1000);
             } else if (numOfFans == 2) {
                 Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
                 image.setImage(img);
+                image.setVisible(true);
                 Thread.sleep(1000);
                 img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
                 image.setImage(img);
@@ -436,6 +435,7 @@ public class HouseController implements Initializable {
             } else {
                 Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
                 image.setImage(img);
+                image.setVisible(true);
                 Thread.sleep(1000);
                 img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
                 image.setImage(img);
@@ -446,7 +446,7 @@ public class HouseController implements Initializable {
             }
         }
 
-        if (numOfFans != 0 && delta <= 1.0) image.setImage(null);
+        if (numOfFans != 0 && delta <= 1.0) image.setVisible(false);
         else if (numOfFans == 0 && delta <= 1.0) image.setRotate(0);
     }
 
@@ -822,14 +822,16 @@ public class HouseController implements Initializable {
         }
         while (System.currentTimeMillis() - startTime <= time) {
             if (numOfFans == 1) {
-                image.setImage(null);
+                image.setVisible(false);
                 Thread.sleep(1000);
                 Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
                 image.setImage(img);
+                image.setVisible(true);
                 Thread.sleep(1000);
             } else if (numOfFans == 2) {
                 Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
                 image.setImage(img);
+                image.setVisible(true);
                 Thread.sleep(1000);
                 img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
                 image.setImage(img);
@@ -837,6 +839,7 @@ public class HouseController implements Initializable {
             } else {
                 Image img = new Image(getClass().getResource(filename + "2.png").toExternalForm());
                 image.setImage(img);
+                image.setVisible(true);
                 Thread.sleep(1000);
                 img = new Image(getClass().getResource(filename + "1.png").toExternalForm());
                 image.setImage(img);
@@ -847,7 +850,7 @@ public class HouseController implements Initializable {
             }
         }
 
-        if (delta <= 1.0) image.setImage(null);
+        if (delta <= 1.0) image.setVisible(false);
     }
 
     public void checkingHouseTemp(ArrayList<Room> roomList) {
@@ -862,17 +865,24 @@ public class HouseController implements Initializable {
 
             double finaldtemp = dtemp;
             System.out.println(dtemp);
+
             //If not in a new thread each room will be executed one by one
             String finalResult = result;
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    //assert finalResult != null;
                     String[] data = finalResult.split("#");
                     if (data[1].equals("cooling")) {
                         //call coolingFunc
                         try {
                             coolingFunction(data[2], data[0]);
                             if (room.getCurrentTemp() == finaldtemp) {
+                                if(livingRoomColdWave.isVisible()) livingRoomColdWave.setVisible(false);
+                                if(kitchenColdWave.isVisible()) kitchenColdWave.setVisible(false);
+                                if(bedroomColdWave.isVisible()) bedroomColdWave.setVisible(false);
+                                if(bathroomFan.getRotate() != 0.0) bathroomFan.setRotate(0.0);
+                                if(wcFan.getRotate() != 0.0) wcFan.setRotate(0.0);
                                 SensorNode.connect(room.getName() + "#" + room.getCurrentTemp() + "#false", 3333);
                             }
                         } catch (InterruptedException | IOException e) {
@@ -883,6 +893,11 @@ public class HouseController implements Initializable {
                         try {
                             heatingFunction(data[2], data[0]);
                             if (room.getCurrentTemp() == finaldtemp) {
+                                if(livingRoomHotWave.isVisible()) livingRoomHotWave.setVisible(false);
+                                if(kitchenHotWave.isVisible()) kitchenHotWave.setVisible(false);
+                                if(bedroomHotWave.isVisible()) bedroomHotWave.setVisible(false);
+                                if(bathroomHotWave.isVisible()) bathroomHotWave.setVisible(false);
+                                if(wcHotWave.isVisible()) wcHotWave.setVisible(false);
                                 SensorNode.connect(room.getName() + "#" + room.getCurrentTemp() + "#false", 3333);
                             }
                         } catch (InterruptedException | IOException e) {
