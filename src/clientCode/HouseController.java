@@ -1,7 +1,9 @@
 package clientCode;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -9,6 +11,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class HouseController implements Initializable {
@@ -57,6 +60,33 @@ public class HouseController implements Initializable {
     @FXML
     ImageView bedroomColdWave;
 
+    @FXML
+    Button livingRoomWindow;
+
+    @FXML
+    ImageView lImg;
+
+    @FXML
+    Button kitchenWindow;
+
+    @FXML
+    ImageView kImg;
+
+    @FXML
+    Button bedroomWindow;
+
+    @FXML
+    ImageView bImg;
+
+    @FXML
+    Button bathroomWindow;
+
+    @FXML
+    ImageView beImg;
+
+    @FXML
+    Text outTemp;
+
     SensorNode livingSensor = new SensorNode();
     Room livingRoom = new Room("livingRoom", livingSensor.getCurrentRoomTemp(), false, livingSensor);
 
@@ -76,6 +106,11 @@ public class HouseController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Random random = new Random();
+
+        String newOutTemp = "" + (15 + random.nextInt(10));
+        outTemp.setText(newOutTemp);
+
         ArrayList<Room> roomList = new ArrayList<>();
 
         livingRoomTemp.setText("" + livingRoom.getCurrentTemp());
@@ -878,11 +913,11 @@ public class HouseController implements Initializable {
                         try {
                             coolingFunction(data[2], data[0]);
                             if (room.getCurrentTemp() == finaldtemp) {
-                                if(livingRoomColdWave.isVisible()) livingRoomColdWave.setVisible(false);
-                                if(kitchenColdWave.isVisible()) kitchenColdWave.setVisible(false);
-                                if(bedroomColdWave.isVisible()) bedroomColdWave.setVisible(false);
-                                if(bathroomFan.getRotate() != 0.0) bathroomFan.setRotate(0.0);
-                                if(wcFan.getRotate() != 0.0) wcFan.setRotate(0.0);
+                                if (livingRoomColdWave.isVisible()) livingRoomColdWave.setVisible(false);
+                                if (kitchenColdWave.isVisible()) kitchenColdWave.setVisible(false);
+                                if (bedroomColdWave.isVisible()) bedroomColdWave.setVisible(false);
+                                if (bathroomFan.getRotate() != 0.0) bathroomFan.setRotate(0.0);
+                                if (wcFan.getRotate() != 0.0) wcFan.setRotate(0.0);
                                 SensorNode.connect(room.getName() + "#" + room.getCurrentTemp() + "#false", 3333);
                             }
                         } catch (InterruptedException | IOException e) {
@@ -893,11 +928,11 @@ public class HouseController implements Initializable {
                         try {
                             heatingFunction(data[2], data[0]);
                             if (room.getCurrentTemp() == finaldtemp) {
-                                if(livingRoomHotWave.isVisible()) livingRoomHotWave.setVisible(false);
-                                if(kitchenHotWave.isVisible()) kitchenHotWave.setVisible(false);
-                                if(bedroomHotWave.isVisible()) bedroomHotWave.setVisible(false);
-                                if(bathroomHotWave.isVisible()) bathroomHotWave.setVisible(false);
-                                if(wcHotWave.isVisible()) wcHotWave.setVisible(false);
+                                if (livingRoomHotWave.isVisible()) livingRoomHotWave.setVisible(false);
+                                if (kitchenHotWave.isVisible()) kitchenHotWave.setVisible(false);
+                                if (bedroomHotWave.isVisible()) bedroomHotWave.setVisible(false);
+                                if (bathroomHotWave.isVisible()) bathroomHotWave.setVisible(false);
+                                if (wcHotWave.isVisible()) wcHotWave.setVisible(false);
                                 SensorNode.connect(room.getName() + "#" + room.getCurrentTemp() + "#false", 3333);
                             }
                         } catch (InterruptedException | IOException e) {
@@ -907,6 +942,71 @@ public class HouseController implements Initializable {
                 }
             });
             t.start();
+        }
+    }
+
+    public boolean lWindowOpen = false;
+    public boolean kWindowOpen = false;
+    public boolean bWindowOpen = false;
+    public boolean beWindowOpen = false;
+
+    @FXML
+    public void windowBtnPressed(Event event) {
+        String window = ((Button) event.getSource()).getText();
+        if (window.equals("l")) {
+            if (!lWindowOpen) {
+                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+                lImg.setImage(img);
+                lImg.setFitWidth(64);
+                lWindowOpen = true;
+            } else {
+                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+                lImg.setImage(img);
+                lImg.setFitWidth(10);
+                lWindowOpen = false;
+            }
+        } else if (window.equals("k")) {
+            if (!kWindowOpen) {
+                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+                kImg.setImage(img);
+                kImg.setFitWidth(64);
+                kitchenWindow.setLayoutY(90);
+                kWindowOpen = true;
+            } else {
+                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+                kImg.setImage(img);
+                kImg.setFitWidth(10);
+                kitchenWindow.setLayoutY(81);
+                kWindowOpen = false;
+            }
+        } else if (window.equals("b")) {
+            if (!bWindowOpen) {
+                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+                bImg.setImage(img);
+                bImg.setFitWidth(64);
+                bedroomWindow.setLayoutY(442);
+                bWindowOpen = true;
+            } else {
+                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+                bImg.setImage(img);
+                bImg.setFitWidth(10);
+                bedroomWindow.setLayoutY(453);
+                bWindowOpen = false;
+            }
+        } else if (window.equals("be")) {
+            if (!beWindowOpen) {
+                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+                beImg.setImage(img);
+                beImg.setFitWidth(64);
+                bathroomWindow.setLayoutY(90);
+                beWindowOpen = true;
+            } else {
+                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+                beImg.setImage(img);
+                beImg.setFitWidth(10);
+                bathroomWindow.setLayoutY(81);
+                beWindowOpen = false;
+            }
         }
     }
 }
