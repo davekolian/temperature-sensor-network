@@ -13,7 +13,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("housefxSimple.fxml"));
         Parent root = loader.load();
         stage.setTitle("Smart Home Temperature Measure");
-        stage.setScene(new Scene(root, 1000, 585));
+        stage.setScene(new Scene(root, 810, 530));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("clientLogo.png")));
         stage.show();
     }
@@ -21,6 +21,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 
 }

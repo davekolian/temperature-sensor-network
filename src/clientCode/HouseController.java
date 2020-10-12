@@ -82,7 +82,7 @@ public class HouseController implements Initializable {
     Button bathroomWindow;
 
     @FXML
-    ImageView beImg;
+    ImageView baImg;
 
     @FXML
     Text outTemp;
@@ -104,11 +104,16 @@ public class HouseController implements Initializable {
 
     public double dtemp = 0.0;
 
+    public boolean lWindowOpen = false;
+    public boolean kWindowOpen = false;
+    public boolean bWindowOpen = false;
+    public boolean baWindowOpen = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Random random = new Random();
 
-        String newOutTemp = "" + (15 + random.nextInt(10));
+        String newOutTemp = "" + (double)(15 + random.nextInt(10));
         outTemp.setText(newOutTemp);
 
         ArrayList<Room> roomList = new ArrayList<>();
@@ -166,6 +171,8 @@ public class HouseController implements Initializable {
             }
         });
         newClient.start();
+
+
     }
 
 
@@ -945,68 +952,185 @@ public class HouseController implements Initializable {
         }
     }
 
-    public boolean lWindowOpen = false;
-    public boolean kWindowOpen = false;
-    public boolean bWindowOpen = false;
-    public boolean beWindowOpen = false;
+    @FXML
+    public void livingRoomWindowBtnPressed(){
+        if (!lWindowOpen) {
+            Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+            lImg.setImage(img);
+            lImg.setFitWidth(64);
+            lWindowOpen = true;
+        } else {
+            Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+            lImg.setImage(img);
+            lImg.setFitWidth(7.2);
+            lWindowOpen = false;
+        }
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double delta = 0.0;
+                while (true) {
+                    //System.out.println("hi");
+                    if (lWindowOpen) {
+                        System.out.println("living room window open");
+                        delta = Double.parseDouble(outTemp.getText()) - Double.parseDouble(livingRoomTemp.getText());
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        String newTemp = null;
+                        if (delta < 0)
+                            newTemp = "" + (Double.parseDouble(livingRoomTemp.getText()) - 1);
+                        else if (delta > 0) {
+                            newTemp = "" + (Double.parseDouble(livingRoomTemp.getText()) + 1);
+                        }
+
+                        livingRoomTemp.setText(newTemp);
+                    }
+                }
+            }
+        });
+        t.start();
+    }
 
     @FXML
-    public void windowBtnPressed(Event event) {
-        String window = ((Button) event.getSource()).getText();
-        if (window.equals("l")) {
-            if (!lWindowOpen) {
-                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
-                lImg.setImage(img);
-                lImg.setFitWidth(64);
-                lWindowOpen = true;
-            } else {
-                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
-                lImg.setImage(img);
-                lImg.setFitWidth(10);
-                lWindowOpen = false;
-            }
-        } else if (window.equals("k")) {
-            if (!kWindowOpen) {
-                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
-                kImg.setImage(img);
-                kImg.setFitWidth(64);
-                kitchenWindow.setLayoutY(90);
-                kWindowOpen = true;
-            } else {
-                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
-                kImg.setImage(img);
-                kImg.setFitWidth(10);
-                kitchenWindow.setLayoutY(81);
-                kWindowOpen = false;
-            }
-        } else if (window.equals("b")) {
-            if (!bWindowOpen) {
-                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
-                bImg.setImage(img);
-                bImg.setFitWidth(64);
-                bedroomWindow.setLayoutY(442);
-                bWindowOpen = true;
-            } else {
-                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
-                bImg.setImage(img);
-                bImg.setFitWidth(10);
-                bedroomWindow.setLayoutY(453);
-                bWindowOpen = false;
-            }
-        } else if (window.equals("be")) {
-            if (!beWindowOpen) {
-                Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
-                beImg.setImage(img);
-                beImg.setFitWidth(64);
-                bathroomWindow.setLayoutY(90);
-                beWindowOpen = true;
-            } else {
-                Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
-                beImg.setImage(img);
-                beImg.setFitWidth(10);
-                bathroomWindow.setLayoutY(81);
-                beWindowOpen = false;
-            }
+    public void kitchenWindowBtnPressed(){
+        if (!kWindowOpen) {
+            Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+            kImg.setImage(img);
+            kImg.setFitWidth(64);
+            kitchenWindow.setLayoutY(118);
+            kWindowOpen = true;
+        } else {
+            Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+            kImg.setImage(img);
+            kImg.setFitWidth(7.2);
+            kitchenWindow.setLayoutY(111);
+            kWindowOpen = false;
         }
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double delta = 0.0;
+                while (true) {
+                    //System.out.println("hi");
+                    if (kWindowOpen) {
+                        System.out.println("kitchen window open");
+                        delta = Double.parseDouble(outTemp.getText()) - Double.parseDouble(kitchenTemp.getText());
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        String newTemp = null;
+                        if (delta < 0)
+                            newTemp = "" + (Double.parseDouble(kitchenTemp.getText()) - 1);
+                        else if (delta > 0) {
+                            newTemp = "" + (Double.parseDouble(kitchenTemp.getText()) + 1);
+                        }
+
+                        kitchenTemp.setText(newTemp);
+                    }
+                }
+            }
+        });
+        t.start();
+    }
+
+    @FXML
+    public void bedroomWindowBtnPressed(){
+        if (!bWindowOpen) {
+            Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+            bImg.setImage(img);
+            bImg.setFitWidth(64);
+            bedroomWindow.setLayoutY(385);
+            bWindowOpen = true;
+        } else {
+            Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+            bImg.setImage(img);
+            bImg.setFitWidth(7.2);
+            bedroomWindow.setLayoutY(391);
+            bWindowOpen = false;
+        }
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double delta = 0.0;
+                while (true) {
+                    //System.out.println("hi");
+                    if (bWindowOpen) {
+                        System.out.println("bedroom window open");
+                        delta = Double.parseDouble(outTemp.getText()) - Double.parseDouble(bedroomTemp.getText());
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        String newTemp = null;
+                        if (delta < 0)
+                            newTemp = "" + (Double.parseDouble(bedroomTemp.getText()) - 1);
+                        else if (delta > 0) {
+                            newTemp = "" + (Double.parseDouble(bedroomTemp.getText()) + 1);
+                        }
+
+                        bedroomTemp.setText(newTemp);
+                    }
+                }
+            }
+        });
+        t.start();
+    }
+
+    @FXML
+    public void bathroomWindowBtnPressed(){
+        if (!baWindowOpen) {
+            Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
+            baImg.setImage(img);
+            baImg.setFitWidth(64);
+            bathroomWindow.setLayoutY(118);
+            baWindowOpen = true;
+        } else {
+            Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
+            baImg.setImage(img);
+            baImg.setFitWidth(7.2);
+            bathroomWindow.setLayoutY(111);
+            baWindowOpen = false;
+        }
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double delta = 0.0;
+                while (true) {
+                    //System.out.println("hi");
+                    if (baWindowOpen) {
+                        System.out.println("bathroom window open");
+                        delta = Double.parseDouble(outTemp.getText()) - Double.parseDouble(bathroomTemp.getText());
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        String newTemp = null;
+                        if (delta < 0)
+                            newTemp = "" + (Double.parseDouble(bathroomTemp.getText()) - 1);
+                        else if (delta > 0) {
+                            newTemp = "" + (Double.parseDouble(bathroomTemp.getText()) + 1);
+                        }
+
+                        bathroomTemp.setText(newTemp);
+                    }
+                }
+            }
+        });
+        t.start();
     }
 }

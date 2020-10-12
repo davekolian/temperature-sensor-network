@@ -7,47 +7,47 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientCode.HouseController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientCode.HouseController">
    <children>
-      <ImageView fitHeight="530.0" fitWidth="947.0" layoutX="23.0" layoutY="14.0">
+      <ImageView fitHeight="530.0" fitWidth="947.0" preserveRatio="true">
          <image>
             <Image url="@Web%201920%20–%2011.png" />
          </image>
       </ImageView>
-      <Text fx:id="kitchenTemp" fill="#ff3131" layoutX="613.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="livingRoomTemp" fill="#ff3131" layoutX="257.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="bathroomTemp" fill="#ff3131" layoutX="765.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="wcTemp" fill="#ff3131" layoutX="769.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="bedroomTemp" fill="#ff3131" layoutX="182.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <ImageView fx:id="livingRoomHotWave" fitHeight="71.0" fitWidth="47.0" layoutX="170.0" layoutY="170.0">
+      <Text fx:id="kitchenTemp" fill="#ff3131" layoutX="551.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0" />
+      <Text fx:id="livingRoomTemp" fill="#ff3131" layoutX="279.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0" />
+      <Text fx:id="bathroomTemp" fill="#ff3131" layoutX="666.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0" />
+      <Text fx:id="wcTemp" fill="#ff3131" layoutX="666.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0" />
+      <Text fx:id="bedroomTemp" fill="#ff3131" layoutX="225.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0" />
+      <ImageView fx:id="livingRoomHotWave" fitHeight="71.0" fitWidth="47.0" layoutX="224.0" layoutY="171.0">
       </ImageView>
-      <ImageView fx:id="kitchenHotWave" fitHeight="71.0" fitWidth="47.0" layoutX="538.0" layoutY="279.0">
+      <ImageView fx:id="kitchenHotWave" fitHeight="71.0" fitWidth="47.0" layoutX="494.0" layoutY="248.0">
       </ImageView>
-      <ImageView fx:id="bathroomHotWave" fitHeight="44.0" fitWidth="22.0" layoutX="754.0" layoutY="186.0">
+      <ImageView fx:id="bathroomHotWave" fitHeight="44.0" fitWidth="22.0" layoutX="660.0" layoutY="185.0">
       </ImageView>
-      <ImageView fx:id="wcHotWave" fitHeight="33.0" fitWidth="22.0" layoutX="776.0" layoutY="382.0" rotate="144.7">
+      <ImageView fx:id="wcHotWave" fitHeight="33.0" fitWidth="22.0" layoutX="666.0" layoutY="330.0" rotate="144.7">
       </ImageView>
-      <ImageView fx:id="bedroomHotWave" fitHeight="71.0" fitWidth="47.0" layoutX="214.0" layoutY="271.0" rotate="90.8">
+      <ImageView fx:id="bedroomHotWave" fitHeight="71.0" fitWidth="47.0" layoutX="250.0" layoutY="248.0" rotate="90.8">
       </ImageView>
-      <ImageView fx:id="kitchenColdWave" fitHeight="59.0" fitWidth="31.0" layoutX="499.0" layoutY="105.0" rotate="61.9">
+      <ImageView fx:id="kitchenColdWave" fitHeight="59.0" fitWidth="31.0" layoutX="467.0" layoutY="127.0" rotate="61.9">
       </ImageView>
-      <ImageView fx:id="bedroomColdWave" fitHeight="71.0" fitWidth="37.0" layoutX="421.0" layoutY="379.0" rotate="-88.3">
+      <ImageView fx:id="bedroomColdWave" fitHeight="71.0" fitWidth="37.0" layoutX="406.0" layoutY="323.0" rotate="-90.0">
       </ImageView>
-      <ImageView fx:id="livingRoomColdWave" fitHeight="55.0" fitWidth="37.0" layoutX="388.0" layoutY="107.0" rotate="117.1">
+      <ImageView fx:id="livingRoomColdWave" fitHeight="55.0" fitWidth="37.0" layoutX="386.0" layoutY="129.0" rotate="117.1">
       </ImageView>
-      <ImageView fx:id="bathroomFan" fitHeight="29.0" fitWidth="29.0" layoutX="841.0" layoutY="191.0">
+      <ImageView fx:id="bathroomFan" fitHeight="25.0" fitWidth="25.0" layoutX="724.0" layoutY="187.0">
          <image>
             <Image url="@jojoj.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="wcFan" fitHeight="29.0" fitWidth="29.0" layoutX="812.0" layoutY="441.0">
+      <ImageView fx:id="wcFan" fitHeight="25.0" fitWidth="25.0" layoutX="698.0" layoutY="378.0">
          <image>
             <Image url="@jojoj.png" />
          </image>
       </ImageView>
-      <Button fx:id="kitchenWindow" layoutX="532.0" layoutY="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#windowBtnPressed" prefHeight="16.0" prefWidth="52.0" style="-fx-background-color: transparent;" text="k">
+      <Button fx:id="kitchenWindow" layoutX="492.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#kitchenWindowBtnPressed" prefHeight="7.0" prefWidth="39.0" style="-fx-background-color: transparent;" text="k">
       <graphic>
-         <ImageView fx:id="kImg" fitHeight="55.0" fitWidth="10.0" layoutX="401.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+         <ImageView fx:id="kImg" fitHeight="38.0" fitWidth="7.2" layoutX="401.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
             <image>
                <Image url="@wClosed.png" />
             </image>
@@ -57,9 +57,9 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Button fx:id="bedroomWindow" layoutX="295.0" layoutY="453.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#windowBtnPressed" prefHeight="16.0" prefWidth="66.0" style="-fx-background-color: transparent;" text="b">
+      <Button fx:id="bedroomWindow" layoutX="316.0" layoutY="391.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#bedroomWindowBtnPressed" prefHeight="8.0" prefWidth="46.0" style="-fx-background-color: transparent;" text="b">
          <graphic>
-            <ImageView fx:id="bImg" fitHeight="55.0" fitWidth="10.0" layoutX="401.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+            <ImageView fx:id="bImg" fitHeight="36.0" fitWidth="7.2" layoutX="401.0" layoutY="82.5" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                <image>
                   <Image url="@wClosed.png" />
                </image>
@@ -69,9 +69,9 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Button fx:id="livingRoomWindow" layoutX="144.0" layoutY="102.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#windowBtnPressed" prefHeight="48.0" prefWidth="12.0" style="-fx-background-color: transparent;" text="l">
+      <Button fx:id="livingRoomWindow" layoutX="203.0" layoutY="125.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#livingRoomWindowBtnPressed" prefHeight="34.0" prefWidth="8.0" style="-fx-background-color: transparent;" text="l">
          <graphic>
-            <ImageView fx:id="lImg" fitHeight="55.0" fitWidth="10.0" layoutX="401.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lImg" fitHeight="36.0" fitWidth="7.2" layoutX="401.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@wClosed.png" />
                </image>
@@ -81,10 +81,9 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Text fx:id="outTemp" layoutX="40.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Button fx:id="bathroomWindow" layoutX="771.0" layoutY="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#windowBtnPressed" prefHeight="16.0" prefWidth="52.0" style="-fx-background-color: transparent;" text="be">
+      <Button fx:id="bathroomWindow" layoutX="673.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#bathroomWindowBtnPressed" prefHeight="7.0" prefWidth="39.0" style="-fx-background-color: transparent;" text="ba">
          <graphic>
-            <ImageView fx:id="beImg" fitHeight="55.0" fitWidth="10.0" layoutX="401.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+            <ImageView fx:id="baImg" fitHeight="38.0" fitWidth="7.2" layoutX="401.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                <image>
                   <Image url="@wClosed.png" />
                </image>
@@ -94,6 +93,12 @@
             <Font size="1.0" />
          </font>
       </Button>
+      <Text fx:id="outTemp" fill="#ff3131" layoutX="57.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21.0" />
+      <Text fill="#ff3131" layoutX="38.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Outside&#10;Temperature" textAlignment="CENTER" wrappingWidth="97.82107543945312">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
 
    </children>
 </Pane>
