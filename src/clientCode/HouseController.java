@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+import javax.swing.text.html.HTMLDocument;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -85,7 +86,16 @@ public class HouseController implements Initializable {
     ImageView baImg;
 
     @FXML
+    ImageView background;
+
+    @FXML
     Text outTemp;
+
+    @FXML
+    Button changeDay;
+
+    public boolean IsDayTime = false;
+
 
     SensorNode livingSensor = new SensorNode();
     Room livingRoom = new Room("livingRoom", livingSensor.getCurrentRoomTemp(), false, livingSensor);
@@ -113,8 +123,9 @@ public class HouseController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Random random = new Random();
 
-        String newOutTemp = "" + (double)(15 + random.nextInt(10));
+        String newOutTemp = "" + (double) (20 - random.nextInt(10));
         outTemp.setText(newOutTemp);
+
 
         ArrayList<Room> roomList = new ArrayList<>();
 
@@ -953,7 +964,7 @@ public class HouseController implements Initializable {
     }
 
     @FXML
-    public void livingRoomWindowBtnPressed(){
+    public void livingRoomWindowBtnPressed() {
         if (!lWindowOpen) {
             Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
             lImg.setImage(img);
@@ -997,18 +1008,18 @@ public class HouseController implements Initializable {
     }
 
     @FXML
-    public void kitchenWindowBtnPressed(){
+    public void kitchenWindowBtnPressed() {
         if (!kWindowOpen) {
             Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
             kImg.setImage(img);
             kImg.setFitWidth(64);
-            kitchenWindow.setLayoutY(118);
+            kitchenWindow.setLayoutY(85);
             kWindowOpen = true;
         } else {
             Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
             kImg.setImage(img);
             kImg.setFitWidth(7.2);
-            kitchenWindow.setLayoutY(111);
+            kitchenWindow.setLayoutY(78);
             kWindowOpen = false;
         }
 
@@ -1043,18 +1054,20 @@ public class HouseController implements Initializable {
     }
 
     @FXML
-    public void bedroomWindowBtnPressed(){
+    public void bedroomWindowBtnPressed() {
         if (!bWindowOpen) {
             Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
             bImg.setImage(img);
-            bImg.setFitWidth(64);
-            bedroomWindow.setLayoutY(385);
+            bImg.setFitWidth(80);
+            bImg.setFitHeight(50);
+            bImg.setRotate(-90);
+            bedroomWindow.setLayoutY(395);
             bWindowOpen = true;
         } else {
             Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
             bImg.setImage(img);
             bImg.setFitWidth(7.2);
-            bedroomWindow.setLayoutY(391);
+            bedroomWindow.setLayoutY(403);
             bWindowOpen = false;
         }
 
@@ -1089,18 +1102,18 @@ public class HouseController implements Initializable {
     }
 
     @FXML
-    public void bathroomWindowBtnPressed(){
+    public void bathroomWindowBtnPressed() {
         if (!baWindowOpen) {
             Image img = new Image(getClass().getResource("wOpen.png").toExternalForm());
             baImg.setImage(img);
             baImg.setFitWidth(64);
-            bathroomWindow.setLayoutY(118);
+            bathroomWindow.setLayoutY(85);
             baWindowOpen = true;
         } else {
             Image img = new Image(getClass().getResource("wClosed.png").toExternalForm());
             baImg.setImage(img);
             baImg.setFitWidth(7.2);
-            bathroomWindow.setLayoutY(111);
+            bathroomWindow.setLayoutY(78);
             baWindowOpen = false;
         }
 
@@ -1132,5 +1145,33 @@ public class HouseController implements Initializable {
             }
         });
         t.start();
+    }
+
+    @FXML
+    public void ChangeDaypressed() {
+
+        if (IsDayTime) {
+            Image img = new Image(getClass().getResource("Web 1920 – 13.png").toExternalForm());
+            background.setImage(img);
+            IsDayTime = false;
+        } else {
+            Image img = new Image(getClass().getResource("Web 1920 – 14.png").toExternalForm());
+            background.setImage(img);
+            IsDayTime = true;
+        }
+
+        Random random = new Random();
+
+        if (IsDayTime) {
+            String newOutTemp = "" + (double) (20 + random.nextInt(10));
+            outTemp.setText(newOutTemp);
+        }
+
+        if (!IsDayTime) {
+            String newOutTemp = "" + (double) (20 - random.nextInt(10));
+            outTemp.setText(newOutTemp);
+        }
+
+
     }
 }
