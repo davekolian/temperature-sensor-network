@@ -1000,6 +1000,11 @@ public class HouseController implements Initializable {
                         }
 
                         livingRoomTemp.setText(newTemp);
+                        try {
+                            SensorNode.connect("livingRoom#"+livingRoomTemp.getText()+"#false", 3333);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -1046,6 +1051,11 @@ public class HouseController implements Initializable {
                         }
 
                         kitchenTemp.setText(newTemp);
+                        try {
+                            SensorNode.connect("kitchenRoom#"+kitchenTemp.getText()+"#false", 3333);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -1094,6 +1104,11 @@ public class HouseController implements Initializable {
                         }
 
                         bedroomTemp.setText(newTemp);
+                        try {
+                            SensorNode.connect("bedroom#"+bedroomTemp.getText()+"#false", 3333);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -1140,6 +1155,11 @@ public class HouseController implements Initializable {
                         }
 
                         bathroomTemp.setText(newTemp);
+                        try {
+                            SensorNode.connect("bathroom#"+bathroomTemp.getText()+"#false", 3333);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

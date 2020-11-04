@@ -33,6 +33,7 @@ public class ServerNode implements Runnable {
                 String str = "", str2 = "";
 
                 str = din.readUTF();
+                //System.out.println(str);
 
                 if (str.equals("")) {
                     din.close();
@@ -79,14 +80,16 @@ public class ServerNode implements Runnable {
         String[] dataArray = data.split("#");
         String result = "";
 
-        if (Double.parseDouble(dataArray[1]) < desiredTemp) {
-            //turn on heating
-            result = "on#heating#" + dataArray[0];
-        } else if (Double.parseDouble(dataArray[1]) > desiredTemp) {
-            //turn on cooling
-            result = "on#cooling#" + dataArray[0];
-        } else {
-            result = "good#good#good";
+        if(dataArray.length == 3) {
+            if (Double.parseDouble(dataArray[1]) < desiredTemp) {
+                //turn on heating
+                result = "on#heating#" + dataArray[0];
+            } else if (Double.parseDouble(dataArray[1]) > desiredTemp) {
+                //turn on cooling
+                result = "on#cooling#" + dataArray[0];
+            } else {
+                result = "good#good#good";
+            }
         }
 
         return result;
